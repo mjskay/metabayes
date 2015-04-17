@@ -26,7 +26,7 @@ To specify a model in metajags, simply write the model code as an R expression
 \code{metajags_model()}.
 }
 \value{
-An object of class \code{"jags_code"}: 
+An object of class \code{"metajags_model"}: 
 
 \item{code}{ The JAGS model specification as a character string. }
 }
