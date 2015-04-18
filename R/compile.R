@@ -135,7 +135,7 @@ compile.for = function(x, ...) {
     x[[1]] = quote(`<-`)
     compile.operator(x, ...)
 }
-`compile.<-` = function(x, value=NULL, ...) {   # <- right-hand side must be called "value"
+`compile.<-` = function(x, ...) {
     compile.operator(x, ...)
 }
 
