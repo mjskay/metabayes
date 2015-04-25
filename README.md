@@ -32,7 +32,6 @@ model_string = "
 model {
     #core model
     for (i in 1:n) {
-        # latent variable log-linear model
         mu[i] <- b[1] + b[2]*x[i]
         y[i] ~ dnorm(mu[i], tau)
     }
@@ -57,7 +56,6 @@ library(runjags)
 model = metajags_model({
     #core model
     for (i in 1:n) {
-        # latent variable log-linear model
         mu[i] <- b[1] + b[2]*x[i]
         y[i] ~ dnorm(mu[i], tau)
     }
