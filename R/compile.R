@@ -3,6 +3,15 @@
 # Author: Matthew Kay
 ###############################################################################
 
+# we keep all of the "meat" of the compilation code in separate environments so
+# that we can:
+# 1) build up an environment to compile the code in that is separate from the
+#    caller's environment (which is used to evaluate R expressions in if and R()
+#    statements)
+# 2) Easily build up environments specific to parsing meta-languages for 
+#    different modellers (e.g. JAGS or Stan) by re-using the common code needed
+#    for compilation.
+# You can think of these as poor-mans sub-namespaces within this package.
 compile_environment = within(model_code_environment, {
 
 
