@@ -1,4 +1,4 @@
-Package: metajags
+Package: metabayes
 Title: Meta-Language for Specifying JAGS Models as R Code
 Version: 0.8.1
 Date: 2015-04-17
@@ -12,8 +12,8 @@ Suggests:
     tidybayes,
     runjags
 License: GPL (>= 2)
-BugReports: https://github.com/mjskay/metajags/issues/new
-URL: https://github.com/mjskay/metajags
+BugReports: https://github.com/mjskay/metabayes/issues/new
+URL: https://github.com/mjskay/metabayes
 Collate:
     'model_code.R'
     'compile.R'

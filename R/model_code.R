@@ -11,6 +11,7 @@
 # 2) Easily build up environments specific to parsing meta-languages for 
 #    different modellers (e.g. JAGS or Stan) by re-using the common code needed
 #    for compilation.
+# You can think of these as poor-mans sub-namespaces within this package.
 model_code_environment = within(list(), {
         
 

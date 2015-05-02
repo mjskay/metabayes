@@ -1,4 +1,4 @@
-# metajags: R Package for specifying JAGS models directly as R code rather than as embedded strings 
+# metabayes: R Package for specifying JAGS models directly as R code rather than as embedded strings 
 
 _Matthew Kay, University of Washington <mjskay@uw.edu>_
 
@@ -22,7 +22,7 @@ devtools::install_github("mjskay/metabayes")
 
 ## Example
 
-Consider the following typical approach (without metajags) for JAGS model specification for
+Consider the following typical approach (without metabayes) for JAGS model specification for
 a simple linear regression, which uses a character string to specify the model:
 
 ```r
@@ -48,7 +48,7 @@ model {
 jags_fit = run.jags(model_string, data=data_list, ...)
 ```
 
-With metajags, we can instead specify the model directly as R code:
+With metabayes, we can instead specify the model directly as R code:
 
 ```r
 library(runjags)
@@ -74,7 +74,7 @@ jags_fit = run.jags(model$code, data=data_list, ...)
 
 ## Differences from JAGS
 There are some situations in which JAGS code cannot be used exactly as-is
-in metajags.
+in metabayes.
 
 ### Truncation 
 Because R syntax does not allow function calls to be placed adjacent to each other
@@ -82,14 +82,14 @@ without an operator in between, it is not possible to specify truncation directl
 using the JAGS syntax:
 
 ```r
-X ~ dnorm(0, 1) T(L,U)      #will not work in metajags
+X ~ dnorm(0, 1) T(L,U)      #will not work in metabayes
 ```
 
 Metajags includes the `%c%` operator (not in normal JAGS), which simply concatenates 
 two JAGS expressions in the output. For example:
 
 ```r
-X ~ dnorm(0, 1) %c% T(L,U)  #works in metajags
+X ~ dnorm(0, 1) %c% T(L,U)  #works in metabayes
 ```
 
 Compiles to the JAGS code specified above.
