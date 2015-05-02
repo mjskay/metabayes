@@ -51,6 +51,7 @@ test_that("a metajags model with %c% compiles correctly", {
     })
 
 test_that("if statements compile correctly in the parent environment", {
+        a <<- NULL
         a = TRUE
         model = metajags_model({
                 if (a) {
@@ -87,7 +88,8 @@ expect_equal(model$code,
     })
 
 
-test_that("R statements compile correctly", {
+test_that("R statements compile correctly in the parent environment", {
+        a <<- NULL
         a = 5
         model = metajags_model({
                 a <- 3
