@@ -3,6 +3,9 @@
 # Author: Matthew Kay
 ###############################################################################
 
+model_code_environment = within(list(), {
+        
+
 ## MODEL CODE
 ## Represents model code that results from compiled meta code
 ## Can be concatenated with other code (and characters) using c().
@@ -28,3 +31,6 @@ c.model_code = function(...) {
     } 
     mc
 }
+
+
+})

@@ -3,6 +3,9 @@
 # Author: Matthew Kay
 ###############################################################################
 
+compile_environment = within(model_code_environment, {
+
+
 ## compiles metajags code to JAGS
 compile = function(x=NULL, ...) UseMethod("compile")
 
@@ -158,16 +161,16 @@ compile.name = function(x, ...) {
 }
 
 ## META-PROGRAMMING CONSTRUCTS
-compile.R = function(x, ...) {
-    bare_block(eval(x[[2]]), ...)
+compile.R = function(x, eval_env=list(), ...) {
+    bare_block(eval(x[[2]], envir=eval_env), eval_env=eval_env, ...)
 }
 
-compile.if = function(x, ...) {
-    if (eval(x[[2]])) {
-        bare_block(x[[3]], ...)
+compile.if = function(x, eval_env=list(), ...) {
+    if (eval(x[[2]], envir=eval_env)) {
+        bare_block(x[[3]], eval_env=eval_env, ...)
     }
     else if (length(x) == 4) {  #else clause
-        bare_block(x[[4]], ...)
+        bare_block(x[[4]], eval_env=eval_env, ...)
     }
     else {      #no else clause given
         model_code()
@@ -177,3 +180,6 @@ compile.if = function(x, ...) {
 ## convenience versions of compile for expressions quoted using ~ or .
 compile.formula = function(x, ...) compile(as.list(x)[-1], ...)
 compile.quoted = compile.list
+
+
+})

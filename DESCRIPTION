@@ -6,7 +6,7 @@ Authors@R: c(person("Matthew", "Kay", role = c("aut", "cre"),
     email = "mjskay@uw.edu"))
 Maintainer: Matthew Kay <mjskay@uw.edu>
 Description: Allows you to specify JAGS models in R code rather than as embedded strings, with some simple 
-    meta-compilation features (like if statements for conditional compilation). 
+    meta-compilation features (like if statements for conditional compilation).
 Suggests:
     testthat,
     tidybayes,
@@ -14,3 +14,7 @@ Suggests:
 License: GPL (>= 2)
 BugReports: https://github.com/mjskay/metajags/issues/new
 URL: https://github.com/mjskay/metajags
+Collate:
+    'model_code.R'
+    'compile.R'
+    'metajags.R'
