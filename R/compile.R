@@ -1,4 +1,4 @@
-# Basic compilation function: translate quoted R expressions into jags_code objects
+# Basic compilation function: translate quoted R expressions into model_code objects
 # 
 # Author: Matthew Kay
 ###############################################################################
@@ -7,7 +7,7 @@
 compile = function(x=NULL, ...) UseMethod("compile")
 
 compile.default = function(x=NULL, ...) {
-    jags_code(deparse(x))    
+    model_code(deparse(x))    
 }
 
 ## GENERIC FUNCTIONS AND OPERATORS
@@ -29,7 +29,7 @@ compile.function = function(x, ...) {
     function_name = deparse(x[[1]])
     params = as.list(x[-1])
     c(
-        jags_code(function_name), 
+        model_code(function_name), 
         "(",
         compile(params, ...),
         ")"
@@ -39,7 +39,7 @@ compile.function = function(x, ...) {
 compile.operator = function(x, ...) {
     if (length(x) == 2) {   #unary operator
         c(
-            jags_code(deparse(x[[1]])),
+            model_code(deparse(x[[1]])),
             compile(x[[2]], ...)
         )
     }
@@ -55,30 +55,30 @@ compile.operator = function(x, ...) {
 ## LISTS
 compile.list = function(x, ...) {
     if (length(x) == 0) {
-        jags_code()
+        model_code()
     }
     else {
-        jc = compile(x[[1]], ...)
+        mc = compile(x[[1]], ...)
         if (length(x) > 1) {
-            jc = c(jc, ",", compile(x[-1], ...))
+            mc = c(mc, ",", compile(x[-1], ...))
         }
-        jc
+        mc
     }
 }
 
 ## CODE BLOCKS
 statement_list = function(x, indent="", ...) {
-    jc = jags_code()
+    mc = model_code()
     for (param in x) {
-        jc = c(jc, 
+        mc = c(mc, 
             "\n", indent, compile(param, indent=indent, ...))
     }
-    jc
+    mc
 }
 
 `compile.{` = function(x, indent="", ...) {
     c(
-        jags_code("{"),
+        model_code("{"),
         statement_list(as.list(x[-1]), paste0(indent, "    "), ...),
         "\n", indent, "}"
     )
@@ -108,7 +108,7 @@ bare_block = function(x, ...) {
 ## PARAMETER LISTS
 `compile.(` = function(x, ...) {
     c(
-        jags_code("("),
+        model_code("("),
         compile(x[[2]], ...),
         ")"
     )
@@ -117,7 +117,7 @@ bare_block = function(x, ...) {
 ## FOR LOOPS
 compile.for = function(x, ...) {
     c(
-        jags_code("for ("),
+        model_code("for ("),
         compile(x[[2]], ...),
         " in ",
         compile(x[[3]], ...),
@@ -151,7 +151,7 @@ compile.for = function(x, ...) {
 ## LONE SYMBOLS (NAMES)
 compile.name = function(x, ...) {
     symbol_name = deparse(x)
-    jags_code(
+    model_code(
         symbol_name,
         if (symbol_name == "") NULL else symbol_name
     )
@@ -170,7 +170,7 @@ compile.if = function(x, ...) {
         bare_block(x[[4]], ...)
     }
     else {      #no else clause given
-        jags_code()
+        model_code()
     }
 }
 

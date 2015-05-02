@@ -8,6 +8,6 @@
 metajags_model = function(model) {
     model = bare_block(substitute(model), indent="    ")
     model$code = paste0("model {", model$code, "\n}")
-    class(model) = c("metajags_model", "jags_code")
+    class(model) = c("metajags_model", "model_code")
     model
 }
