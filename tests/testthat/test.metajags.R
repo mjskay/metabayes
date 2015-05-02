@@ -49,3 +49,68 @@ test_that("a metajags model with %c% compiles correctly", {
 }")
         expect_equal(model$symbols, "b")
     })
+
+test_that("if statements compile correctly in the parent environment", {
+        a = TRUE
+        model = metajags_model({
+                if (a) {
+                    b ~ dnorm(0, 10)
+                }
+                else {
+                    g ~ dgamma(1, 1)
+                }
+            })
+        
+        expect_equal(model$code,
+"model {
+    
+    b ~ dnorm(0,10)
+}")
+        expect_equal(model$symbols, "b")
+
+        
+        a = FALSE
+        model = metajags_model({
+                if (a) {
+                    b ~ dnorm(0, 10)
+                }
+                else {
+                    g ~ dgamma(1, 1)
+                }
+            })        
+        
+expect_equal(model$code,
+"model {
+    
+    g ~ dgamma(1,1)
+}")
+    })
+
+
+test_that("R statements compile correctly", {
+        a = 5
+        model = metajags_model({
+                a <- 3
+                z ~ dnorm(R(a * 7), 10)
+            })
+        
+        expect_equal(model$code,
+"model {
+    a <- 3
+    z ~ dnorm(35,10)
+}")
+        expect_true(setequal(model$symbols, c("a","z")))
+
+        model = metajags_model({
+                z ~ R(quote(dnorm(h, 10)))
+            })
+        
+        expect_equal(model$code,
+"model {
+    z ~ dnorm(h,10)
+}")
+        expect_true(setequal(model$symbols, c("h","z")))
+            
+    })
+
+
