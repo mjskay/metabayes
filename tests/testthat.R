@@ -1,4 +1,4 @@
 library(testthat)
-library(metajags)
+library(metabayes)
 
-test_check("metajags")
+test_check("metabayes")

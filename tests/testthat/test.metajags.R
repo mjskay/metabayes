@@ -4,10 +4,7 @@
 ###############################################################################
 
 library(testthat)
-library(plyr)
-library(dplyr)
-library(tidyr)
-library(tidybayes)
+library(metabayes)
 
 
 test_that("a simple metajags model compiles correctly", {
