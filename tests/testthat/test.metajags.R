@@ -6,6 +6,7 @@
 library(testthat)
 library(metabayes)
 
+context("metajags")
 
 test_that("a simple metajags model compiles correctly", {
         model = metajags_model({
