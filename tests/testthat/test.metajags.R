@@ -130,4 +130,10 @@ test_that("R statements compile correctly in the parent environment", {
             
     })
 
+test_that("Function names can be expressions", {
+        model = metajags_model(R(quote(dnorm))(h))
 
+        expect_equal(model$code,
+"model {dnorm(h)
+}")
+    })

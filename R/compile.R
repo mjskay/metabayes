@@ -38,10 +38,18 @@ compile.call = function(x, ...) {
 }
 
 compile.function = function(x, ...) {
-    function_name = deparse(x[[1]])
+    function_code = if(is.name(x[[1]])) {
+        #just a plain-old named function
+        function_name = deparse(x[[1]])
+        model_code(function_name)
+    }
+    else {
+        #function name is an expression
+        compile(x[[1]])
+    }
     params = as.list(x[-1])
     c(
-        model_code(function_name), 
+        function_code,
         "(",
         compile(params, ...),
         ")"
