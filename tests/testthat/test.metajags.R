@@ -36,6 +36,23 @@ test_that("a simple metajags model compiles correctly", {
         expect_true(setequal(model$symbols, c("i", "n", "mu", "b", "x", "y", "tau")))
     })
 
+test_that("quoted strings are included as bare JAGS code", {
+        model = metajags_model({
+                #core model
+                for (i in 1:n) {
+                    # latent variable log-linear model
+                    "mu[i] <- b[1] + b[2] * x[i]"
+                }
+            })
+
+        expect_equal(model$code,
+"model {
+    for (i in 1 : n) {
+        mu[i] <- b[1] + b[2] * x[i]
+    }
+}")
+    })
+
 test_that("a metajags model with %c% compiles correctly", {
         model = metajags_model({
                 b ~ dnorm(0, 10) %c% T(0,)

@@ -19,7 +19,7 @@ compile_environment = within(model_code_environment, {
 compile = function(x=NULL, ...) UseMethod("compile")
 
 compile.default = function(x=NULL, ...) {
-    model_code(deparse(x))    
+    model_code(as.character(x))
 }
 
 ## GENERIC FUNCTIONS AND OPERATORS

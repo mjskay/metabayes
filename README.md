@@ -94,6 +94,32 @@ X ~ dnorm(0, 1) %c% T(L,U)  #works in metabayes
 
 Compiles to the JAGS code specified above.
 
+### Quoted JAGS code: a last resort
+While metajags has syntax to support all current base JAGS functionality, you future
+versions (or some modules) may introduce syntax that is not currently supported. In
+that case, you can always include raw JAGS code directly by quoting it as a string.
+For example:
+
+```r
+model = metajags_model({
+    #core model
+    for (i in 1:n) {
+        mu[i] <- b[1] + b[2]*x[i]
+        y[i] ~ dnorm(mu[i], tau)
+    }
+
+    #priors
+    "b[1] ~ dnorm(0, 10)"
+    b[2] ~ dnorm(0, 10)
+    tau ~ dgamma(0.01, 0.01)
+})
+```
+
+This results in the same model from above: in this case, `"b[1] ~ dnorm(0, 10)"` is
+included directly as raw JAGS code. This is recommended **only as a last resort**, as
+this code is not parsed by metajags. That means, for example, that any variable names
+included only in string expressions will not be identified by metajags (functionality
+that may be used in the future to automatically pull data from the R environment).
 
 ## Extensions to JAGS
 
