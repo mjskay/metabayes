@@ -130,6 +130,20 @@ test_that("R statements compile correctly in the parent environment", {
             
     })
 
+test_that("R statements returning a list become statement blocks", {
+        model = metajags_model(R(list(
+                quote(a <- 3),
+                quote(z ~ dnorm(7, 10))))
+            )
+
+        expect_equal(model$code,
+"model {
+    a <- 3
+    z ~ dnorm(7,10)
+}")
+        expect_true(setequal(model$symbols, c("a","z")))
+    })
+
 test_that("Function names can be expressions", {
         model = metajags_model(R(quote(dnorm))(h))
 

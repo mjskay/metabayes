@@ -179,7 +179,15 @@ compile.name = function(x, ...) {
 
 ## META-PROGRAMMING CONSTRUCTS
 compile.R = function(x, eval_env=list(), ...) {
-    bare_block(eval(x[[2]], envir=eval_env), eval_env=eval_env, ...)
+    #evaluate R expression to get the meta code to compile
+    quoted_code = eval(x[[2]], envir=eval_env)
+    if (is.list(quoted_code)) {
+        #lists can be returned by R expressions here and we
+        #treat them as statement blocks
+        quoted_code = as.call(c(`{`, quoted_code))
+        class(quoted_code) = "{"
+    }
+    bare_block(quoted_code, eval_env=eval_env, ...)
 }
 
 compile.if = function(x, eval_env=list(), ...) {

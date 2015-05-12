@@ -150,8 +150,8 @@ This statement is useful for conditionally including/excluding parts of the mode
 
 ### `R` statement
 `R(R_expression)` allows arbitrary R code to be executed when the metajags code is compiled.
-This expression should return a quoted R expression (e.g. as returned by `quote()`), which
-will be treated as metajags code and compiled.
+This expression should return a quoted R expression (e.g. as returned by `quote()`) or a
+list of quoted R expressions, which will be treated as metajags code and compiled.
 
 
 ## Problems
