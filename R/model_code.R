@@ -1,4 +1,5 @@
-# Building-block object for compiled code
+# Building-block object representing compiled code and some metadata (e.g.
+# list of variables in the code). The compile functions return one of these.
 # 
 # Author: Matthew Kay
 ###############################################################################

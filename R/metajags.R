@@ -7,7 +7,7 @@
 ## METAJAGS MODEL
 metajags_model = function(model) {
     #set up compilation environment
-    env = compile_environment
+    env = metajags_compile_environment
     env$quoted_model = substitute(model)
     env$eval_env = parent.frame()  #environment used for evaluating R expressions in meta-statements (like if or R())
     #compile

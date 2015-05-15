@@ -1,17 +1,11 @@
-# Basic compilation function: translate quoted R expressions into model_code objects
+# Basic compile function and environment: used to translate quoted R expressions 
+# into model_code objects representing code in the base language.
 # 
 # Author: Matthew Kay
 ###############################################################################
 
-# we keep all of the "meat" of the compilation code in separate environments so
-# that we can:
-# 1) build up an environment to compile the code in that is separate from the
-#    caller's environment (which is used to evaluate R expressions in if and R()
-#    statements)
-# 2) Easily build up environments specific to parsing meta-languages for 
-#    different modellers (e.g. JAGS or Stan) by re-using the common code needed
-#    for compilation.
-# You can think of these as poor-mans sub-namespaces within this package.
+# We keep all of the "meat" of the compilation code in separate environments.
+# See the comment for model_code_environment at the top of model_code.R
 compile_environment = within(model_code_environment, {
 
 

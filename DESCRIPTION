@@ -17,4 +17,5 @@ URL: https://github.com/mjskay/metabayes
 Collate:
     'model_code.R'
     'compile.R'
+    'compile_metajags.R'
     'metajags.R'
