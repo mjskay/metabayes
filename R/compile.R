@@ -179,10 +179,17 @@ compile.R = function(x, eval_env=list(), ...) {
     #evaluate R expression to get the meta code to compile
     quoted_code = eval(x[[2]], envir=eval_env)
     if (is.list(quoted_code)) {
-        #lists can be returned by R expressions here and we
-        #treat them as statement blocks
-        quoted_code = as.call(c(`{`, quoted_code))
-        class(quoted_code) = "{"
+        if (length(quoted_code) == 1) {
+            #lists of one language element are treated as just one language element
+            #that way a list of one object can be used as an expression
+            quoted_code = quoted_code[[1]]
+        }
+        else {
+            #lists can be returned by R expressions here and we
+            #treat them as statement blocks
+            quoted_code = as.call(c(`{`, quoted_code))
+            class(quoted_code) = "{"
+        }
     }
     bare_block(quoted_code, eval_env=eval_env, ...)
 }
