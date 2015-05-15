@@ -27,11 +27,11 @@ operators=c(
 compile.call = function(x, ...) {
     function_name = deparse(x[[1]])
     class(x) = c(function_name, 
-        if (function_name %in% operators || substr(function_name, 1, 1) == "%") "operator" else "function")
+        if (function_name %in% operators || substr(function_name, 1, 1) == "%") "operator" else "function_call")
     compile(x, ...)
 }
 
-compile.function = function(x, ...) {
+compile.function_call = function(x, ...) {
     function_code = if(is.name(x[[1]])) {
         #just a plain-old named function
         function_name = deparse(x[[1]])
@@ -81,11 +81,14 @@ compile.list = function(x, ...) {
 }
 
 ## CODE BLOCKS
+block_statements = c("{", "for", "while", "if")   #statements that are treated as block statement (not terminated with a ";")
 statement_list = function(x, indent="", ...) {
     mc = model_code()
-    for (param in x) {
-        mc = c(mc, 
-            "\n", indent, compile(param, indent=indent, ...))
+    for (statement in x) {
+        statement_code = compile(statement, indent=indent, ...)
+        mc = c(mc, "\n", indent, statement_code, 
+            if (! class(statement) %in% block_statements) ";"	#terminate non-block statements with ";"
+        )
     }
     mc
 }

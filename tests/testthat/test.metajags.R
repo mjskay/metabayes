@@ -26,12 +26,12 @@ test_that("a simple metajags model compiles correctly", {
         expect_equal(model$code, 
 "model {
     for (i in 1 : n) {
-        mu[i] <- b[1] + b[2] * x[i]
-        y[i] ~ dnorm(mu[i],tau)
+        mu[i] <- b[1] + b[2] * x[i];
+        y[i] ~ dnorm(mu[i],tau);
     }
-    b[1] ~ dnorm(0,10)
-    b[2] ~ dnorm(0,10)
-    tau ~ dgamma(0.01,0.01)
+    b[1] ~ dnorm(0,10);
+    b[2] ~ dnorm(0,10);
+    tau ~ dgamma(0.01,0.01);
 }")
         expect_true(setequal(model$symbols, c("i", "n", "mu", "b", "x", "y", "tau")))
     })
@@ -48,7 +48,7 @@ test_that("quoted strings are included as bare JAGS code", {
         expect_equal(model$code,
 "model {
     for (i in 1 : n) {
-        mu[i] <- b[1] + b[2] * x[i]
+        mu[i] <- b[1] + b[2] * x[i];
     }
 }")
     })
@@ -60,7 +60,7 @@ test_that("a metajags model with %c% compiles correctly", {
 
         expect_equal(model$code,
 "model {
-    b ~ dnorm(0,10) T(0,)
+    b ~ dnorm(0,10) T(0,);
 }")
         expect_equal(model$symbols, "b")
     })
@@ -80,7 +80,7 @@ test_that("if statements compile correctly in the parent environment", {
         expect_equal(model$code,
 "model {
     
-    b ~ dnorm(0,10)
+    b ~ dnorm(0,10);
 }")
         expect_equal(model$symbols, "b")
 
@@ -98,7 +98,7 @@ test_that("if statements compile correctly in the parent environment", {
 expect_equal(model$code,
 "model {
     
-    g ~ dgamma(1,1)
+    g ~ dgamma(1,1);
 }")
     })
 
@@ -113,8 +113,8 @@ test_that("R statements compile correctly in the parent environment", {
         
         expect_equal(model$code,
 "model {
-    a <- 3
-    z ~ dnorm(35,10)
+    a <- 3;
+    z ~ dnorm(35,10);
 }")
         expect_true(setequal(model$symbols, c("a","z")))
 
@@ -124,7 +124,7 @@ test_that("R statements compile correctly in the parent environment", {
         
         expect_equal(model$code,
 "model {
-    z ~ dnorm(h,10)
+    z ~ dnorm(h,10);
 }")
         expect_true(setequal(model$symbols, c("h","z")))
             
@@ -138,8 +138,8 @@ test_that("R statements returning a list become statement blocks", {
 
         expect_equal(model$code,
 "model {
-    a <- 3
-    z ~ dnorm(7,10)
+    a <- 3;
+    z ~ dnorm(7,10);
 }")
         expect_true(setequal(model$symbols, c("a","z")))
     })
