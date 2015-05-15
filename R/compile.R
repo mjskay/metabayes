@@ -81,15 +81,15 @@ compile.list = function(x, ...) {
 }
 
 ## CODE BLOCKS
-block_statements = c("{", "for", "while", "if")   #statements that are treated as block statement (not terminated with a ";")
 statement_list = function(x, indent="", ...) {
     mc = model_code()
     for (statement in x) {
         statement_code = compile(statement, indent=indent, ...)
         mc = c(mc, "\n", indent, statement_code, 
-            if (! class(statement) %in% block_statements) ";"	#terminate non-block statements with ";"
+            if (!statement_code$is_statement) ";" #terminate non-statements with ";"
         )
     }
+    mc$is_statement = TRUE
     mc
 }
 
@@ -97,7 +97,8 @@ statement_list = function(x, indent="", ...) {
     c(
         model_code("{"),
         statement_list(as.list(x[-1]), paste0(indent, "    "), ...),
-        "\n", indent, "}"
+        "\n", indent, "}",
+        is_statement = TRUE
     )
 }
 
@@ -139,7 +140,8 @@ compile.for = function(x, ...) {
         " in ",
         compile(x[[3]], ...),
         ") ",
-        compile(x[[4]], ...)
+        compile(x[[4]], ...),
+        is_statement = TRUE
     )
 }
 
