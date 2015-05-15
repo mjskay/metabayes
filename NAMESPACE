@@ -1,1 +1,1 @@
-export(metajags_model)
+export(metajags)

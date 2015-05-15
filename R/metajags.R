@@ -5,7 +5,7 @@
 
 
 ## METAJAGS MODEL
-metajags_model = function(model) {
+metajags = function(model) {
     #set up compilation environment
     env = metajags_compile_environment
     env$quoted_model = substitute(model)
@@ -13,6 +13,6 @@ metajags_model = function(model) {
     #compile
     model = evalq(bare_block(quoted_model, indent="    ", eval_env=eval_env), envir = env)
     model$code = paste0("model {", model$code, "\n}")
-    class(model) = c("metajags_model", "model_code")
+    class(model) = c("metajags", "model_code")
     model
 }

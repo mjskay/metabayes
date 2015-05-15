@@ -9,7 +9,7 @@ library(metabayes)
 context("metajags")
 
 test_that("a simple metajags model compiles correctly", {
-        model = metajags_model({
+        model = metajags({
                     #core model
                     for (i in 1:n) {
                             # latent variable log-linear model
@@ -37,7 +37,7 @@ test_that("a simple metajags model compiles correctly", {
     })
 
 test_that("quoted strings are included as bare JAGS code", {
-        model = metajags_model({
+        model = metajags({
                 #core model
                 for (i in 1:n) {
                     # latent variable log-linear model
@@ -54,7 +54,7 @@ test_that("quoted strings are included as bare JAGS code", {
     })
 
 test_that("a metajags model with %c% compiles correctly", {
-        model = metajags_model({
+        model = metajags({
                 b ~ dnorm(0, 10) %c% T(0,)
             })
 
@@ -68,7 +68,7 @@ test_that("a metajags model with %c% compiles correctly", {
 test_that("if statements compile correctly in the parent environment", {
         a <<- NULL
         a = TRUE
-        model = metajags_model({
+        model = metajags({
                 if (a) {
                     b ~ dnorm(0, 10)
                 }
@@ -86,7 +86,7 @@ test_that("if statements compile correctly in the parent environment", {
 
         
         a = FALSE
-        model = metajags_model({
+        model = metajags({
                 if (a) {
                     b ~ dnorm(0, 10)
                 }
@@ -106,7 +106,7 @@ expect_equal(model$code,
 test_that("R statements compile correctly in the parent environment", {
         a <<- NULL
         a = 5
-        model = metajags_model({
+        model = metajags({
                 a <- 3
                 z ~ dnorm(R(a * 7), 10)
             })
@@ -118,7 +118,7 @@ test_that("R statements compile correctly in the parent environment", {
 }")
         expect_true(setequal(model$symbols, c("a","z")))
 
-        model = metajags_model({
+        model = metajags({
                 z ~ R(quote(dnorm(h, 10)))
             })
         
@@ -131,7 +131,7 @@ test_that("R statements compile correctly in the parent environment", {
     })
 
 test_that("R statements returning a list become statement blocks", {
-        model = metajags_model(R(list(
+        model = metajags(R(list(
                 quote(a <- 3),
                 quote(z ~ dnorm(7, 10))))
             )
@@ -145,7 +145,7 @@ test_that("R statements returning a list become statement blocks", {
     })
 
 test_that("Function names can be expressions", {
-        model = metajags_model(R(quote(dnorm))(h))
+        model = metajags(R(quote(dnorm))(h))
 
         expect_equal(model$code,
 "model {dnorm(h)
