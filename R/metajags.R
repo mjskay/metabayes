@@ -1,10 +1,10 @@
 # Main external function: compiles a metajags model to JAGS code
 # 
-# Author: Matthew
+# Author: Matthew Kay
 ###############################################################################
 
 
-## METAJAGS MODEL
+## COMPILE METAJAGS MODEL
 metajags = function(model, data=NULL, ...) {
     #set up compilation environment
     env = metajags_compile_environment

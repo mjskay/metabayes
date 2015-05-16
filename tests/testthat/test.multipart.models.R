@@ -11,7 +11,8 @@ context("multipart models")
 test_that("a model with multiple sub-parts compiles correctly", {
     refmodel = metajags(dnorm(0,1))
     expect_equal(code(refmodel),
-"model {dnorm(0,1)
+"model {
+    dnorm(0,1);
 }")
 
     model = metajags(model = dnorm(0,1))
@@ -19,10 +20,12 @@ test_that("a model with multiple sub-parts compiles correctly", {
     
     model = metajags(model = dnorm(0,1), data=x ~ y, foo={a <- 5; x = 7})
     expect_equal(code(model),
-"data {x ~ y
+"data {
+    x ~ y;
 }
 
-model {dnorm(0,1)
+model {
+    dnorm(0,1);
 }
 
 foo {

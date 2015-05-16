@@ -69,6 +69,7 @@ test_that("Function names can be expressions", {
         model = metajags(R(quote(dnorm))(h))
 
         expect_equal(code(model),
-"model {dnorm(h)
+"model {
+    dnorm(h);
 }")
     })

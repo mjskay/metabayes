@@ -16,9 +16,14 @@ metamodel = function(model_parts, env, eval_env) {
             env$metacode = model_part_metacode
             #compile
             model_part = evalq(bare_block(metacode, indent="    ", eval_env=eval_env), envir = env)
+            if (!model_part$is_statement) {
+                #returned code is not a terminated statement, so terminate it
+                model_part$code = paste0("\n    ", model_part$code, ";")
+            }
             model_part$code = paste0("{", model_part$code, "\n}")
             model_part
         })
+    names(model) = gsub("[\\._]", " ", names(model))    #translate _ and . into spaces (for metastan)
     class(model) = c("metamodel")
     model
 }
