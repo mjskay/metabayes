@@ -19,7 +19,8 @@ code.default = function(x, ...) {
 #    different modellers (e.g. JAGS or Stan) by re-using the common code needed
 #    for compilation.
 # You can think of these as poor-mans sub-namespaces within this package.
-model_code_environment = within(list(), {
+model_code_environment = new.env()
+local({
         
 
 ## MODEL CODE
@@ -56,4 +57,17 @@ c.model_code = function(..., is_statement=FALSE) {
 }
 
 
-})
+}, model_code_environment)
+
+#copy an environment, re-assigning existing functions to use the new
+#environment (needed so that new methods can be added which will be
+#in the search path of the old methods)
+copy_environment = function(env) {
+    env2 = list2env(as.list(env, all.names=TRUE), parent=parent.env(env))
+    for (i in ls(env, all.names=TRUE)) {
+        if (is.function(env2[[i]])) {
+            environment(env2[[i]]) = env2
+        }
+    }
+    env2
+}

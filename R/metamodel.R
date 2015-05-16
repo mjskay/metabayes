@@ -7,6 +7,9 @@
 ###############################################################################
 
 metamodel = function(model_parts, env, eval_env) {
+    env = new.env(parent=env)
+    env$eval_env = eval_env
+    
     #compile each sub-part of the model
     model_parts = model_parts[!sapply(model_parts, is.null)]
     model = lapply(model_parts, function(model_part_metacode) {

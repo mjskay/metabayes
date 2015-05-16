@@ -20,3 +20,4 @@ Collate:
     'compile_metajags.R'
     'metamodel.R'
     'metajags.R'
+    'compile_metastan.R'
