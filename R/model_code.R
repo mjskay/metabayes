@@ -4,6 +4,12 @@
 # Author: Matthew Kay
 ###############################################################################
 
+code = function(x, ...) UseMethod("code")
+
+code.default = function(x, ...) {
+    x$code
+}
+
 # we keep all of the "meat" of the compilation code in separate environments so
 # that we can:
 # 1) build up an environment to compile the code in that is separate from the

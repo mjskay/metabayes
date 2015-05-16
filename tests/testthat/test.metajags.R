@@ -23,7 +23,7 @@ test_that("a simple metajags model compiles correctly", {
                     tau ~ dgamma(0.01, 0.01)
             })
 
-        expect_equal(model$code, 
+        expect_equal(code(model), 
 "model {
     for (i in 1 : n) {
         mu[i] <- b[1] + b[2] * x[i];
@@ -33,7 +33,7 @@ test_that("a simple metajags model compiles correctly", {
     b[2] ~ dnorm(0,10);
     tau ~ dgamma(0.01,0.01);
 }")
-        expect_true(setequal(model$symbols, c("i", "n", "mu", "b", "x", "y", "tau")))
+        expect_true(setequal(model$model$symbols, c("i", "n", "mu", "b", "x", "y", "tau")))
     })
 
 test_that("quoted strings are included as bare JAGS code", {
@@ -45,7 +45,7 @@ test_that("quoted strings are included as bare JAGS code", {
                 }
             })
 
-        expect_equal(model$code,
+        expect_equal(code(model),
 "model {
     for (i in 1 : n) {
         mu[i] <- b[1] + b[2] * x[i];
@@ -58,11 +58,11 @@ test_that("a metajags model with %c% compiles correctly", {
                 b ~ dnorm(0, 10) %c% T(0,)
             })
 
-        expect_equal(model$code,
+        expect_equal(code(model),
 "model {
     b ~ dnorm(0,10) T(0,);
 }")
-        expect_equal(model$symbols, "b")
+        expect_equal(model$model$symbols, "b")
     })
 
 test_that("if statements compile correctly in the parent environment", {
@@ -77,12 +77,12 @@ test_that("if statements compile correctly in the parent environment", {
                 }
             })
         
-        expect_equal(model$code,
+        expect_equal(code(model),
 "model {
     
     b ~ dnorm(0,10);
 }")
-        expect_equal(model$symbols, "b")
+        expect_equal(model$model$symbols, "b")
 
         
         a = FALSE
@@ -95,7 +95,7 @@ test_that("if statements compile correctly in the parent environment", {
                 }
             })        
         
-expect_equal(model$code,
+expect_equal(code(model),
 "model {
     
     g ~ dgamma(1,1);
@@ -111,22 +111,22 @@ test_that("R statements compile correctly in the parent environment", {
                 z ~ dnorm(R(a * 7), 10)
             })
         
-        expect_equal(model$code,
+        expect_equal(code(model),
 "model {
     a <- 3;
     z ~ dnorm(35,10);
 }")
-        expect_true(setequal(model$symbols, c("a","z")))
+        expect_true(setequal(model$model$symbols, c("a","z")))
 
         model = metajags({
                 z ~ R(quote(dnorm(h, 10)))
             })
         
-        expect_equal(model$code,
+        expect_equal(code(model),
 "model {
     z ~ dnorm(h,10);
 }")
-        expect_true(setequal(model$symbols, c("h","z")))
+        expect_true(setequal(model$model$symbols, c("h","z")))
             
     })
 
@@ -136,18 +136,18 @@ test_that("R() statements returning a list become statement blocks", {
                 quote(z ~ dnorm(7, 10))))
             )
 
-        expect_equal(model$code,
+        expect_equal(code(model),
 "model {
     a <- 3;
     z ~ dnorm(7,10);
 }")
-        expect_true(setequal(model$symbols, c("a","z")))
+        expect_true(setequal(model$model$symbols, c("a","z")))
     })
 
 test_that("R() statements returning a list with one quoted R language object are compiled into an expression", {
         model = metajags({ R(list(quote(dnorm(0,1)))) })
         
-        expect_equal(model$code,
+        expect_equal(code(model),
 "model {
     dnorm(0,1);
 }")
@@ -156,7 +156,7 @@ test_that("R() statements returning a list with one quoted R language object are
 test_that("Function names can be expressions", {
         model = metajags(R(quote(dnorm))(h))
 
-        expect_equal(model$code,
+        expect_equal(code(model),
 "model {dnorm(h)
 }")
     })

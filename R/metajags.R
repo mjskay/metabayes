@@ -5,14 +5,14 @@
 
 
 ## METAJAGS MODEL
-metajags = function(model) {
+metajags = function(model, data=NULL, ...) {
     #set up compilation environment
     env = metajags_compile_environment
-    env$quoted_model = substitute(model)
-    env$eval_env = parent.frame()  #environment used for evaluating R expressions in meta-statements (like if or R())
+    eval_env = parent.frame()  #environment used for evaluating R expressions in meta-statements (like if or R())
+    metacode_parts = eval(substitute(expression(data=data, model=model, ...)))
+    
     #compile
-    model = evalq(bare_block(quoted_model, indent="    ", eval_env=eval_env), envir = env)
-    model$code = paste0("model {", model$code, "\n}")
-    class(model) = c("metajags", "model_code")
+    model = metamodel(metacode_parts, env, eval_env)
+    class(model) = c("metajags", "metamodel")
     model
 }

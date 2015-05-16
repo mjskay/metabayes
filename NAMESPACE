@@ -1,1 +1,6 @@
-export(metajags)
+export(code, metajags)
+
+S3method(code, default)
+S3method(code, metamodel)
+S3method(print, metamodel)
+S3method(as.character, metamodel)

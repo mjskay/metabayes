@@ -18,4 +18,5 @@ Collate:
     'model_code.R'
     'compile.R'
     'compile_metajags.R'
+    'metamodel.R'
     'metajags.R'

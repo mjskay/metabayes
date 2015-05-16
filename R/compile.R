@@ -104,7 +104,10 @@ statement_list = function(x, indent="", ...) {
 
 bare_block = function(x, ...) {
     #if x is a "{...}" block, compiles the statement list without the containing braces
-    #otherwise, simply compiles x
+    #otherwise, simply compiles x. This is used primarily for meta-programming constructs
+    #because JAGS does not support nested {} blocks, so (e.g.) the meta-if construct
+    #must return a sequence of statements without the surrounding {} to be inserted
+    #wherever that if statement is.
     if (class(x) == "{") {
         statement_list(as.list(x[-1]), ...)
     }
