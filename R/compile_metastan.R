@@ -30,5 +30,33 @@ local({
     }
 }
 
+compile.if = function(x, ...) {
+    cond_code = compile(x[[2]], ...)
+    true_code = compile(x[[3]], ...)
+    mc = c(
+        model_code("if ("),
+        cond_code,
+        ") ",
+        true_code)
+    if ((length(x) == 4)) {
+        false_code = compile(x[[4]], ...)
+        mc = c(mc,
+            model_code(" else "), 
+            false_code,
+            #is_statement must be set by the last clause in the
+            #if statement (here, the false clause because an else
+            #clause was present)
+            is_statement = false_code$is_statement
+            )
+    } 
+    else {
+        #is_statement must be set by the last clause in the
+        #if statement (here, the true clause because no else
+        #clause was present)
+        mc$is_statement = true_code$is_statement
+    }
+    mc
+}
+
 
 }, metastan_compile_environment)

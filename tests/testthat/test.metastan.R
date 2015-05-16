@@ -44,3 +44,43 @@ model {
 }")
         expect_true(setequal(model$model$symbols, c("x", "y", "alpha", "beta", "sigma")))
     })
+
+test_that("if works in metastan", {
+        model = metastan(model = {if (a) b else c})
+        expect_equal(code(model),
+"model {
+    if (a) b else c;
+}")
+
+        model = metastan(model = {if (a) {b} else c})
+        expect_equal(code(model),
+"model {
+    if (a) {
+        b;
+    } else c;
+}")
+
+        model = metastan(model = {if (a) {b} 
+                else c
+                d
+            })
+        expect_equal(code(model),
+"model {
+    if (a) {
+        b;
+    } else c;
+    d;
+}")
+
+        model = metastan(model = {if (a) b 
+                else {c}
+                d
+            })
+        expect_equal(code(model),
+"model {
+    if (a) b else {
+        c;
+    }
+    d;
+}")
+})

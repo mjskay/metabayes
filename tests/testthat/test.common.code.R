@@ -6,7 +6,7 @@
 library(testthat)
 library(metabayes)
 
-context("common meta language code")
+context("common meta language")
 
 test_that("quoted strings are included as bare code", {
         model = metajags({
