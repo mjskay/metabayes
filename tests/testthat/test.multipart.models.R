@@ -1,4 +1,4 @@
-# Tests for extract_samples
+# Tests for multipart models
 # 
 # Author: mjskay
 ###############################################################################

@@ -1,4 +1,4 @@
-# Tests for extract_samples
+# Tests for metastatements
 # 
 # Author: mjskay
 ###############################################################################
@@ -6,7 +6,7 @@
 library(testthat)
 library(metabayes)
 
-context("metajags meta statements")
+context("meta statements")
 
 test_that("if statements compile correctly in the parent environment", {
         a <<- NULL

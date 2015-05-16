@@ -32,7 +32,7 @@ compile.call = function(x, ...) {
     compile(x, ...)
 }
 
-compile.function_call = function(x, ...) {
+compile.function_call = function(x, in_type_declaration=FALSE, ...) {
     function_code = if(is.name(x[[1]])) {
         #just a plain-old named function
         function_name = deparse(x[[1]])
@@ -45,9 +45,9 @@ compile.function_call = function(x, ...) {
     params = as.list(x[-1])
     c(
         function_code,
-        "(",
+        if (in_type_declaration) "<" else "(",
         compile(params, ...),
-        ")"
+        if (in_type_declaration) ">" else ")"
     )
 }
 
@@ -73,8 +73,12 @@ compile.list = function(x, ...) {
         model_code()
     }
     else {
-        mc = compile(x[[1]], ...)
-        if (length(x) > 1) {
+        mc = compile(x[[1]], ...)           #element value
+        name = names(x[1])
+        if (!is.null(name) && name != "") { #named element
+            mc = c(compile(name), "=", mc)
+        }  
+        if (length(x) > 1) {                #rest of the list
             mc = c(mc, ",", compile(x[-1], ...))
         }
         mc
@@ -142,7 +146,9 @@ compile.for = function(x, ...) {
         model_code("for ("),
         compile(x[[2]], ...),
         " in ",
-        compile(x[[3]], ...),
+        compile(x[[3]], 
+            in_for_seq=TRUE,    #used by metastan to distinguish between sequences and type declarations with `:` 
+            ...),
         ") ",
         compile(x[[4]], ...),
         is_statement = TRUE
