@@ -6,7 +6,8 @@
 
 # We keep all of the "meat" of the compilation code in separate environments.
 # See the comment for model_code_environment at the top of model_code.R
-compile_environment = within(model_code_environment, {
+compile_environment = copy_environment(model_code_environment)
+local({
 
 
 ## compiles metajags code to JAGS
@@ -161,15 +162,6 @@ compile.for = function(x, ...) {
     compile.operator(x, ...)
 }
 
-## CODE CONCATENATION OPERATOR (WORK AROUND FOR USE WITH TRUNCATION)
-`compile.%c%` = function(x, ...) {
-    c(
-        compile(x[[2]], ...),
-        " ",
-        compile(x[[3]], ...)
-    )
-}
-
 ## LONE SYMBOLS (NAMES)
 compile.name = function(x, ...) {
     symbol_name = deparse(x)
@@ -199,21 +191,9 @@ compile.R = function(x, eval_env=list(), ...) {
     bare_block(quoted_code, eval_env=eval_env, ...)
 }
 
-compile.if = function(x, eval_env=list(), ...) {
-    if (eval(x[[2]], envir=eval_env)) {
-        bare_block(x[[3]], eval_env=eval_env, ...)
-    }
-    else if (length(x) == 4) {  #else clause
-        bare_block(x[[4]], eval_env=eval_env, ...)
-    }
-    else {      #no else clause given
-        model_code()
-    }
-}
-
 ## convenience versions of compile for expressions quoted using ~ or .
 compile.formula = function(x, ...) compile(as.list(x)[-1], ...)
 compile.quoted = compile.list
 
 
-})
+}, compile_environment)
