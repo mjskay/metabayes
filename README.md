@@ -11,7 +11,7 @@ This approach has the advantage that syntax checking in R editors helps prevent
 simple errors without having to attempt to compile the model with JAGS, 
 decreasing turnaround time when iterating on models.  
 
-Examples and documentation for the both [metajags](#metajags) and [metastan](#metastan) 
+**Examples and documentation** for both [metajags](#metajags) and [metastan](#metastan) 
 are below. 
 
 ## Installation
@@ -128,7 +128,8 @@ model = metajags(
         "b[1] ~ dnorm(0, 10)"
         b[2] ~ dnorm(0, 10)
         tau ~ dgamma(0.01, 0.01)
-    })
+    }
+)
 ```
 
 This results in the same model from above: in this case, `"b[1] ~ dnorm(0, 10)"` is
@@ -137,7 +138,7 @@ this code is not parsed by Metajags. That means, for example, that any variable 
 included only in string expressions will not be identified by Metajags (functionality
 that may be used in the future to automatically pull data from the R environment).
 
-## Extensions to JAGS
+## Metaprogramming extensions to JAGS
 
 Metajags includes a few simple metaprogramming statements not found in base JAGS. These
 are evaluated once, when the Metajags model is compiled.
@@ -170,7 +171,7 @@ This expression should return a quoted R expression (e.g. as returned by `quote(
 list of quoted R expressions, which will be treated as Metajags code and compiled.
 
 
-# <a name="metastan"></a> metastan: Stan models specified as R code.
+# <a name="metastan"></a> Metastan: Stan models specified as R code.
 
 Due to the similarity in syntax between Stan and R, Stan models
 can be specified in Metajags with few changes, with the exception of
@@ -291,7 +292,7 @@ this code is not parsed by Metastan. That means, for example, that any variable 
 included only in string expressions will not be identified by Metastan (functionality
 that may be used in the future to automatically pull data from the R environment).
 
-## Extensions to Stan
+## Metaprogramming extensions to Stan
 
 Metastan includes a few simple metaprogramming statements not found in base Stan. These
 are evaluated once, when the Metastan model is compiled.
