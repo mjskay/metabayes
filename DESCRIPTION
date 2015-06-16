@@ -1,11 +1,11 @@
 Package: metabayes
-Title: Meta-Language for Specifying JAGS Models as R Code
-Version: 0.8.1
+Title: Meta-Languages for Specifying Bayesian Models (JAGS, Stan) as R Code
+Version: 0.8.2
 Date: 2015-04-17
 Authors@R: c(person("Matthew", "Kay", role = c("aut", "cre"),
     email = "mjskay@uw.edu"))
 Maintainer: Matthew Kay <mjskay@uw.edu>
-Description: Allows you to specify JAGS models in R code rather than as embedded strings, with some simple 
+Description: Allows you to specify JAGS and Stan models in R code rather than as embedded strings, with some simple 
     meta-compilation features (like if statements for conditional compilation).
 Suggests:
     testthat,
@@ -18,7 +18,7 @@ Collate:
     'model_code.R'
     'compile.R'
     'compile_metajags.R'
+    'compile_metastan.R'
     'metamodel.R'
     'metajags.R'
-    'compile_metastan.R'
     'metastan.R'
