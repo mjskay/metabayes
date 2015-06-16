@@ -1,5 +1,7 @@
 # metabayes: R Package for specifying Bayesian models (JAGS, Stan) directly as R code rather than as embedded strings 
 
+[![Build Status](https://travis-ci.org/mjskay/metabayes.png?branch=master)](https://travis-ci.org/mjskay/metabayes)
+
 _Matthew Kay, University of Washington <mjskay@uw.edu>_
 
 `metabayes`  aims to integrate Bayesian model specification more easily into R by
