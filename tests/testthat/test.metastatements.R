@@ -8,7 +8,7 @@ library(metabayes)
 
 context("meta statements")
 
-test_that("if statements compile correctly in the parent environment", {
+test_that("metajags if statements compile correctly in the parent environment", {
         a <<- NULL
         a = TRUE
         model = metajags({
@@ -46,6 +46,46 @@ test_that("if statements compile correctly in the parent environment", {
     })
 
 
+test_that("metastan IF statements compile correctly in the parent environment", {
+        a <<- NULL
+        a = TRUE
+        model = metastan(
+            model = {
+                IF (a, {
+                    b ~ normal(0, 10)
+                },
+                {
+                    g ~ gamma(1, 1)
+                })
+            })
+        
+        expect_equal(code(model),
+"model {
+    
+    b ~ normal(0,10);
+}")
+        expect_equal(model$model$symbols, "b")
+        
+        
+        a = FALSE
+        model = metastan(
+            model = {
+                IF (a, {
+                    b ~ normal(0, 10)
+                },
+                {
+                    g ~ gamma(1, 1)
+                })
+            })        
+        
+        expect_equal(code(model),
+"model {
+    
+    g ~ gamma(1,1);
+}")
+    })
+
+
 test_that("R statements compile correctly in the parent environment", {
         a <<- NULL
         a = 5
@@ -75,8 +115,8 @@ test_that("R statements compile correctly in the parent environment", {
 
 test_that("R() statements returning a list become statement blocks", {
         model = metajags(R(list(
-                                    quote(a <- 3),
-                                    quote(z ~ dnorm(7, 10))))
+            quote(a <- 3),
+            quote(z ~ dnorm(7, 10))))
         )
         
         expect_equal(code(model),

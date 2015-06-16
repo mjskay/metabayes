@@ -20,8 +20,9 @@ local({
         #when used elsewhere, this acts as a type declaration operator
         c(
             compile(x[[3]], 
-                #used by compile.function_call to change bracket type from 
-                #( ... ) to < ... >
+                #used by compile.function_call to change compiled bracket type from 
+                #( ... ) to < ... >, because type declarations in Stan use < ... >
+                #to parameterize types
                 in_type_declaration=TRUE, 
                 ...),
             " ",
@@ -56,6 +57,22 @@ compile.if = function(x, ...) {
         mc$is_statement = true_code$is_statement
     }
     mc
+}
+
+
+## META-PROGRAMMING CONSTRUCTS
+#Unlike JAGS, Stan has its own if statement, so we instead have to use an 
+#IF function for metaprogramming
+compile.IF = function(x, eval_env=list(), ...) {
+    if (eval(x[[2]], envir=eval_env)) {
+        bare_block(x[[3]], eval_env=eval_env, ...)
+    }
+    else if (length(x) == 4) {  #else clause
+        bare_block(x[[4]], eval_env=eval_env, ...)
+    }
+    else {      #no else clause given
+        model_code()
+    }
 }
 
 
