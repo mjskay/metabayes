@@ -85,6 +85,17 @@ test_that("metastan IF statements compile correctly in the parent environment", 
 }")
     })
 
+test_that("FALSE IF / if statements with empty else clauses do not introduce empty statements", {
+        model = metastan(model = IF(FALSE, x))
+        expect_equal(code(model),
+"model {
+}")
+
+        model = metajags(model = if(FALSE) x)
+        expect_equal(code(model),
+"model {
+}")
+    })
 
 test_that("R statements compile correctly in the parent environment", {
         a <<- NULL
