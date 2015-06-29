@@ -197,6 +197,19 @@ compile.R = function(x, eval_env=list(), ...) {
     bare_block(quoted_code, eval_env=eval_env, ...)
 }
 
+compile.IF = function(x, eval_env=list(), ...) {
+    if (eval(x[[2]], envir=eval_env)) {
+        bare_block(x[[3]], eval_env=eval_env, ...)
+    }
+    else if (length(x) == 4) {  #else clause
+        bare_block(x[[4]], eval_env=eval_env, ...)
+    }
+    else {      #no else clause given
+        model_code()
+    }
+}
+
+
 ## convenience versions of compile for expressions quoted using ~ or .
 compile.formula = function(x, ...) compile(as.list(x)[-1], ...)
 compile.quoted = compile.list

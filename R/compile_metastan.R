@@ -60,20 +60,4 @@ compile.if = function(x, ...) {
 }
 
 
-## META-PROGRAMMING CONSTRUCTS
-#Unlike JAGS, Stan has its own if statement, so we instead have to use an 
-#IF function for metaprogramming
-compile.IF = function(x, eval_env=list(), ...) {
-    if (eval(x[[2]], envir=eval_env)) {
-        bare_block(x[[3]], eval_env=eval_env, ...)
-    }
-    else if (length(x) == 4) {  #else clause
-        bare_block(x[[4]], eval_env=eval_env, ...)
-    }
-    else {      #no else clause given
-        model_code()
-    }
-}
-
-
 }, metastan_compile_environment)
