@@ -86,7 +86,8 @@ compile.list = function(x, ...) {
 }
 
 ## CODE BLOCKS
-statement_list = function(x, indent="", ...) {
+#a list of statements (can be an empty list)
+statement_list = function(x = list(), indent="", ...) {
     mc = model_code()
     for (statement in x) {
         statement_code = compile(statement, indent=indent, ...)
@@ -204,8 +205,8 @@ compile.IF = function(x, eval_env=list(), ...) {
     else if (length(x) == 4) {  #else clause
         bare_block(x[[4]], eval_env=eval_env, ...)
     }
-    else {      #no else clause given
-        model_code()
+    else {      #no else clause given => return empty statement list
+        statement_list()
     }
 }
 
