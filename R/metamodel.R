@@ -36,6 +36,7 @@ as.character.metamodel = code.metamodel
 
 print.metamodel = function(x, ...) {
     cat(class(x)[[1]], "code:\n\n")
-    cat(code(x))
+    lines = strsplit(code(x), "\n", fixed=TRUE)[[1]]
+    cat(paste(seq_along(lines), "\t", lines, collapse="\n"))
     cat("\n")
 }
