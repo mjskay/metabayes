@@ -10,7 +10,8 @@ Description: Allows you to specify JAGS and Stan models in R code rather than as
 Suggests:
     testthat,
     tidybayes,
-    runjags
+    runjags,
+    rstan
 License: GPL (>= 2)
 BugReports: https://github.com/mjskay/metabayes/issues/new
 URL: https://github.com/mjskay/metabayes
