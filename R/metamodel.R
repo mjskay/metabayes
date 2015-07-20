@@ -6,6 +6,11 @@
 # Author: Matthew Kay
 ###############################################################################
 
+# Names that should be suppressed from global variable check by codetools
+# Names used broadly should be put in global_variables.R
+globalVariables(c("bare_block", "metacode"))
+
+
 metamodel = function(model_parts, env, eval_env) {
     env = new.env(parent=env)
     env$eval_env = eval_env
