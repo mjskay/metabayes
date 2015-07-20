@@ -1,7 +1,7 @@
 Package: metabayes
 Title: Meta-Languages for Specifying Bayesian Models (JAGS, Stan) as R Code
-Version: 0.8.2
-Date: 2015-06-15
+Version: 0.8.3
+Date: 2015-07-19
 Authors@R: c(person("Matthew", "Kay", role = c("aut", "cre"),
     email = "mjskay@uw.edu"))
 Maintainer: Matthew Kay <mjskay@uw.edu>
