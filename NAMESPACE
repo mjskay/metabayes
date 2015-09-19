@@ -1,4 +1,4 @@
-export(code, metajags, metastan)
+export(code, metajags, metastan, variables)
 
 S3method(code, default)
 S3method(code, metamodel)

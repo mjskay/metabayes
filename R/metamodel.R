@@ -45,3 +45,9 @@ print.metamodel = function(x, ...) {
     cat(paste(seq_along(lines), "\t", lines, collapse="\n"))
     cat("\n")
 }
+
+variables = function(m) {
+    vars = unlist(sapply(m, function(.) as.vector(.$symbols)))
+    names(vars) = NULL
+    vars
+}
