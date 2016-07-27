@@ -9,7 +9,16 @@
 metastan_compile_environment = copy_environment(compile_environment)
 local({
 
-
+#<- is deprecated in Stan, convert to =
+`compile.=` = function(x, ...) {
+    compile.operator(x, ...)
+}
+`compile.<-` = function(x, ...) {
+    x[[1]] = quote(`=`)
+    compile.operator(x, ...)
+}
+    
+    
 `compile.:` = function(x, in_for_seq=FALSE, ...) {
     if (in_for_seq) {
         #when used to specify sequences in a for loop, this acts
