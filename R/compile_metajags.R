@@ -10,15 +10,6 @@ metajags_compile_environment = copy_environment(compile_environment)
 local({
 
 
-## CODE CONCATENATION OPERATOR (WORK AROUND FOR USE WITH TRUNCATION)
-`compile.%c%` = function(x, ...) {
-    c(
-        compile(x[[2]], ...),
-        " ",
-        compile(x[[3]], ...)
-    )
-}
-
 ## META-PROGRAMMING CONSTRUCTS
 #Unlike Stan, JAGS does not have its own if statement, so we can use
 #the if {} else {} syntax for metaprogramming in metajags

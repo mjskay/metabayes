@@ -169,6 +169,15 @@ compile.for = function(x, ...) {
     compile.operator(x, ...)
 }
 
+## CODE CONCATENATION OPERATOR (WORK AROUND FOR USE WITH TRUNCATION)
+`compile.%c%` = function(x, ...) {
+    c(
+        compile(x[[2]], ...),
+        " ",
+        compile(x[[3]], ...)
+    )
+}
+
 ## LONE SYMBOLS (NAMES)
 compile.name = function(x, ...) {
     symbol_name = deparse(x)
