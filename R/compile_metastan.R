@@ -18,6 +18,12 @@ local({
     compile.operator(x, ...)
 }
     
+
+`compile.%+=%` = function(x, ...) {
+    x[[1]] = quote(`+=`)
+    compile.operator(x, ...)
+}
+
     
 `compile.:` = function(x, in_for_seq=FALSE, ...) {
     if (in_for_seq) {
