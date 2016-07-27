@@ -19,7 +19,7 @@ compile.default = function(x=NULL, ...) {
 
 ## GENERIC FUNCTIONS AND OPERATORS
 operators=c(
-    "||","&&","!",
+    "|","&","||","&&","!",
     ">",">=","<","<=","==","!=",
     "+","-","*","/",
     "^","**",
